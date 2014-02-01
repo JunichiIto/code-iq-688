@@ -1,7 +1,7 @@
 require './fruit_log_parser'
 
 describe FruitLogParser do
-  describe '#hoge' do
+  describe '#count_fruits' do
     subject { FruitLogParser.count_fruits(text) }
     describe 'sample' do
       let(:text) { '{apple strawberry (melon [ apple )}' }
