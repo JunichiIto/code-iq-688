@@ -6,21 +6,19 @@ class FruitLogParser
   end
 
   def self.count_fruits(text)
-    fruits_counters.map{|counter| counter.count_max(text) }.max
+    regexps.map{|regexp| count_max(text, regexp) }.max
   end
 
-  def self.fruits_counters
-    BRACKET_PAIRS.map{|pair| FruitsCounter.new(pair) }
+  def self.count_max(text, regexp)
+    text.scan(regexp).map{|s|s.scan(/\w+/).size }.max || 0
   end
 
-  class FruitsCounter
-    def initialize(bracket_pair)
-      left, right = bracket_pair.chars
-      @regexp = Regexp.new("\\#{left}[^\\#{right}]+\\#{right}")
-    end
+  def self.regexps
+    BRACKET_PAIRS.map{|pair| create_regexp(pair) }
+  end
 
-    def count_max(text)
-      text.scan(@regexp).map{|s| s.scan(/\w+/).size }.max || 0
-    end
+  def self.create_regexp(bracket_pair)
+    left, right = bracket_pair.chars
+    Regexp.new("\\#{left}[^\\#{right}]+\\#{right}")
   end
 end
