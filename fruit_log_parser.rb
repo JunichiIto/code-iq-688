@@ -1,6 +1,6 @@
 class FruitLogParser
   def self.parse_log(path)
-    File.readlines(path).map{|line| count_fruits line }
+    File.readlines(path).map{|line| count_fruits(line) }
   end
 
   def self.count_fruits(text)
