@@ -21,11 +21,9 @@ describe FruitLogParser do
     end
     describe 'solve question' do
       specify do
-        puts FruitLogParser.count_fruits(')apple {apple }[strawberry}strawberry melon]}')
-        puts FruitLogParser.count_fruits('{apple [melon (strawberry](melon melon apple()}apple}')
-        puts FruitLogParser.count_fruits('[melon ]](apple strawberry {melon ]) apple (apple{')
-        puts FruitLogParser.count_fruits('(melon {apple strawberry strawberry)( apple [strawberry}}apple')
-        puts FruitLogParser.count_fruits('strawberry (apple {apple }}}strawberry melon){apple strawberry (melon)[}')
+        File.readlines('./fruits.log').each do |line|
+          puts FruitLogParser.count_fruits line
+        end
         expect(true).to be_true
       end
     end
