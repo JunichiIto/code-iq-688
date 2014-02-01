@@ -1,8 +1,8 @@
-require './test'
+require './fruit_log_parser'
 
-describe Test do
+describe FruitLogParser do
   describe '#hoge' do
-    subject { Test.hoge(text) }
+    subject { FruitLogParser.count_fruits(text) }
     describe 'sample' do
       let(:text) { '{apple strawberry (melon [ apple )}' }
       it { should eq 4 }
@@ -21,11 +21,11 @@ describe Test do
     end
     describe 'solve question' do
       specify do
-        puts Test.hoge(')apple {apple }[strawberry}strawberry melon]}')
-        puts Test.hoge('{apple [melon (strawberry](melon melon apple()}apple}')
-        puts Test.hoge('[melon ]](apple strawberry {melon ]) apple (apple{')
-        puts Test.hoge('(melon {apple strawberry strawberry)( apple [strawberry}}apple')
-        puts Test.hoge('strawberry (apple {apple }}}strawberry melon){apple strawberry (melon)[}')
+        puts FruitLogParser.count_fruits(')apple {apple }[strawberry}strawberry melon]}')
+        puts FruitLogParser.count_fruits('{apple [melon (strawberry](melon melon apple()}apple}')
+        puts FruitLogParser.count_fruits('[melon ]](apple strawberry {melon ]) apple (apple{')
+        puts FruitLogParser.count_fruits('(melon {apple strawberry strawberry)( apple [strawberry}}apple')
+        puts FruitLogParser.count_fruits('strawberry (apple {apple }}}strawberry melon){apple strawberry (melon)[}')
         expect(true).to be_true
       end
     end
