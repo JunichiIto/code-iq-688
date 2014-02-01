@@ -1,7 +1,7 @@
 require './fruit_log_parser'
 
 describe FruitLogParser do
-  describe '#count_fruits' do
+  describe '::count_fruits' do
     subject { FruitLogParser.count_fruits(text) }
     describe 'sample' do
       let(:text) { '{apple strawberry (melon [ apple )}' }
@@ -19,13 +19,10 @@ describe FruitLogParser do
       let(:text) { '({}apple) melon strawberry{melon(apple apple) melon strawberry}' }
       it { should eq 5 }
     end
-    describe 'solve question' do
-      specify do
-        File.readlines('./fruits.log').each do |line|
-          puts FruitLogParser.count_fruits line
-        end
-        expect(true).to be_true
-      end
+  end
+  describe '::parse_log' do
+    specify do
+      expect(FruitLogParser.parse_log('./fruits.log')).to eq [3, 6, 3, 5, 4]
     end
   end
 end
