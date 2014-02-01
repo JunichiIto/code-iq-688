@@ -11,26 +11,17 @@ class FruitLogParser
 
   class FruitsCounter
     def initialize(brackets)
-      @start_char = brackets[0]
-      @end_char = brackets[-1]
+      @begin, @end = brackets.chars
     end
 
     def count_max(text)
-      list_counts(text).max || 0
+      text.scan(regexp).map{|s| s.scan(/\w+/).size }.max || 0
     end
 
     private
 
-    def list_counts(text)
-      text.scan(regex).map{|s| s.scan(/\w+/).size }
-    end
-
-    def regex
-      Regexp.new(pattern)
-    end
-
-    def pattern
-      "\\#{@start_char}[^\\#{@end_char}]+\\#{@end_char}"
+    def regexp
+      Regexp.new("\\#{@begin}[^\\#{@end}]+\\#{@end}")
     end
   end
 end
