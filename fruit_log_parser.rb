@@ -18,11 +18,9 @@ class FruitLogParser
     def count_fruits(text, root: true)
       start_indexes = []
       end_indexes = []
-      counting = false
       start_index = nil
       parenthesis_count = 0
       memo = [0]
-      inner_start_indexes = []
       text.each_char.each_with_index do |c, i|
         if start_index == nil && c == @left
           start_indexes << i
@@ -34,14 +32,13 @@ class FruitLogParser
             start_indexes << i
             end_indexes << nil
             parenthesis_count += 1
-            inner_start_indexes << i
           end
           if c == @right
-            end_indexes[-1] = i
+            rindex = end_indexes.rindex(nil)
+            end_indexes[rindex] = i
             parenthesis_count -= 1
           end
           if parenthesis_count.zero?
-            memo << text[start_index..i].scan(/\w+/).size
             start_index = nil
           end
         end
@@ -52,13 +49,6 @@ class FruitLogParser
         end
       end
       memo.max
-      ## カッコがきれいにとじていなければ、内側にちゃんと閉じているカッコがなかったか再検索する
-      #if root && start_index != nil
-      #  inner_start_indexes.each do |start_index|
-      #    memo << count_fruits(text[start_index..-1], root: false)
-      #  end
-      #end
-      #memo.max
     end
   end
 end
