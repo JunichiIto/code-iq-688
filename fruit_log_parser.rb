@@ -10,7 +10,7 @@ class FruitLogParser
   end
 
   def self.count_max(text, regexp)
-    text.scan(regexp).map{|s|s.scan(/\w+/).size }.max || 0
+    text.scan(regexp).map{|s| s.scan(/\w+/).size }.max || 0
   end
 
   def self.regexps
