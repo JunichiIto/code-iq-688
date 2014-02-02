@@ -86,5 +86,23 @@ describe FruitLogParser do
         it { should eq 6 }
       end
     end
+    describe 'hilohiro test' do
+      describe do
+        let(:text) { '{melon (()melon strawberry)][apple}' }
+        it { should eq 4 }
+        describe do
+          let(:text) { '[apple apple }{melon](strawberry}(melon]]' }
+          it { should eq 3 }
+        end
+        describe do
+          let(:text) { '({}apple) melon strawberry{melon(apple apple) melon strawberry}' }
+          it { should eq 5 }
+        end
+        describe do
+          let(:text) { '(apple strawberry (melon {apple) strawberry) melon{apple} strawberry melon apple}' }
+          it { should eq 7 }
+        end
+      end
+    end
   end
 end
