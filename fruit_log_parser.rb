@@ -4,7 +4,7 @@ class FruitLogParser
   end
 
   def self.count_fruits(text)
-    %w!{} [] ()!.map{|pair| count_max(text, pair) }.flatten.max
+    %w!{} [] ()!.map{|pair| count_max(text, pair) }.max
   end
 
   def self.count_max(text, bracket_pair)
