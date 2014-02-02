@@ -14,7 +14,7 @@ class FruitLogParser
       @left, @right = bracket_pair.chars
     end
 
-    def count_fruits(text, root: true)
+    def count_fruits(text)
       start_indexes = []
       end_indexes = []
       parenthesis_count = 0
