@@ -19,8 +19,8 @@ class FruitLogParser
       if c == left
         table[index] = nil
       end
-      if c == right && key = table.invert[nil]
-        table[key] = index
+      if c == right && start_index = table.invert[nil]
+        table[start_index] = index
       end
     end
   end
