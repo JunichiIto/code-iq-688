@@ -14,13 +14,11 @@ class FruitLogParser
       @left, @right = bracket_pair.chars
     end
 
-    # ({}apple) melon strawberry(melon(apple apple) (melon strawberry apple) melon
     def count_fruits(text, root: true)
       start_indexes = []
       end_indexes = []
       start_index = nil
       parenthesis_count = 0
-      memo = [0]
       text.each_char.each_with_index do |c, i|
         if start_index == nil && c == @left
           start_indexes << i
@@ -43,12 +41,9 @@ class FruitLogParser
           end
         end
       end
-      start_indexes.zip(end_indexes) do |s, e|
-        if e != nil
-          memo << text[s..e].scan(/\w+/).size
-        end
-      end
-      memo.max
+      start_indexes.zip(end_indexes).map {|s, e|
+        e ? text[s..e].scan(/\w+/).size : 0
+      }.max || 0
     end
   end
 end
