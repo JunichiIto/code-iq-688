@@ -66,8 +66,24 @@ describe FruitLogParser do
         it { should eq 5 }
       end
       describe do
+        let(:text) { '({}apple) melon strawberry(melon(apple apple) (melon strawberry apple) melon' }
+        it { should eq 3 }
+      end
+      describe do
+        let(:text) { '({}apple) melon strawberry(melon(apple apple) (melon strawberry apple melon' }
+        it { should eq 2 }
+      end
+      describe do
+        let(:text) { '({}apple melon strawberry(melon(apple (apple melon strawberry apple melon' }
+        it { should eq 0 }
+      end
+      describe do
         let(:text) { '({}apple) melon strawberry(melon(apple (apple)) (melon) (strawberry))' }
         it { should eq 5 }
+      end
+      describe do
+        let(:text) { '({}apple) melon strawberry(melon(apple (apple)) (melon) (strawberry)) apple(melon(apple (apple)) (melon) (strawberry) melon)' }
+        it { should eq 6 }
       end
     end
   end
