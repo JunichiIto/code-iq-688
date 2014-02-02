@@ -14,21 +14,28 @@ class FruitLogParser
       @left, @right = bracket_pair.chars
     end
 
-    def count_fruits(text, count = 0, memo = [])
-      # E.g.
-      # count = 0       {[^{}]*}
-      # count = 1 {[^{]*{[^{}]*}[^}]*}
-      pattern = "\\#{@left}[^\\#{@right}]*\\#{@right}"
-      count.times do
-        pattern = "\\#{@left}[^\\#{@left}]*" + pattern + "[^\\#{@right}]*\\#{@right}"
+    def count_fruits(text)
+      start_index = nil
+      parenthesis_count = 0
+      memo = [0]
+      text.chars.each_with_index do |c, i|
+        # off => onになったらstart_indexを保存
+        if start_index == nil && c == @left
+          start_index = i
+          parenthesis_count = 1
+        elsif start_index != nil
+          # onかつ(が見つかったらカウントアップ
+          parenthesis_count += 1 if c == @left
+          # onかつ)が見つかったらカウントダウン
+          parenthesis_count -= 1 if c == @right
+          # onかつカウントが0になったらstart_indexから現在地までのフルーツを数える
+          if parenthesis_count == 0
+            memo << text[start_index..i].scan(/\w+/).size
+            start_index = nil
+          end
+        end
       end
-      r = Regexp.new pattern
-      memo << text.scan(r).map{|s| s.scan(/\w+/).size }
-      if text =~ r
-        count_fruits(text, count + 1, memo)
-      else
-        memo.flatten.max || 0
-      end
+      memo.max
     end
   end
 end
