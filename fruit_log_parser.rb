@@ -11,17 +11,14 @@ class FruitLogParser
     left, right = bracket_pair.chars
     start_indexes = []
     end_indexes = []
-    parenthesis_count = 0
     text.each_char.each_with_index do |c, i|
       if c == left
         start_indexes << i
         end_indexes << nil
-        parenthesis_count += 1
       end
-      if !parenthesis_count.zero? && c == right
+      if !end_indexes.count(nil).zero? && c == right
         rindex = end_indexes.rindex(nil)
         end_indexes[rindex] = i
-        parenthesis_count -= 1
       end
     end
     start_indexes.zip(end_indexes).map {|s, e|
