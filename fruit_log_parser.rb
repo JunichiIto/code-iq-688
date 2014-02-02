@@ -17,15 +17,13 @@ class FruitLogParser
     def count_fruits(text, root: true)
       start_indexes = []
       end_indexes = []
-      start_index = nil
       parenthesis_count = 0
       text.each_char.each_with_index do |c, i|
-        if start_index == nil && c == @left
+        if parenthesis_count.zero? && c == @left
           start_indexes << i
           end_indexes << nil
-          start_index = i
-          parenthesis_count = 1
-        elsif start_index != nil
+          parenthesis_count += 1
+        elsif !parenthesis_count.zero?
           if c == @left
             start_indexes << i
             end_indexes << nil
@@ -35,9 +33,6 @@ class FruitLogParser
             rindex = end_indexes.rindex(nil)
             end_indexes[rindex] = i
             parenthesis_count -= 1
-          end
-          if parenthesis_count.zero?
-            start_index = nil
           end
         end
       end
