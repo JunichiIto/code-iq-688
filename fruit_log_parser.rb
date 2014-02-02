@@ -9,19 +9,17 @@ class FruitLogParser
 
   def self.count_max(text, bracket_pair)
     left, right = bracket_pair.chars
-    start_indexes = []
-    end_indexes = []
+    table = {}
     text.each_char.each_with_index do |c, i|
       if c == left
-        start_indexes << i
-        end_indexes << nil
+        table[i] = nil
       end
-      if !end_indexes.count(nil).zero? && c == right
-        rindex = end_indexes.rindex(nil)
-        end_indexes[rindex] = i
+      if !table.select{|k,v|v.nil?}.empty? && c == right
+        key = table.invert[nil]
+        table[key] = i
       end
     end
-    start_indexes.zip(end_indexes).map {|s, e|
+    table.map {|s, e|
       e ? text[s..e].scan(/\w+/).size : 0
     }.max || 0
   end
