@@ -6,11 +6,12 @@ class FruitLogParser
   end
 
   def self.count_fruits(text)
-    regexp = ->(encl) { Regexp.new(pattern(*encl), Regexp::EXTENDED) }
     count_words = ->(s){ s.scan(/\w+/).count }
-    count_max = ->(r){ text.scan(r).flatten.map(&count_words).max || 0 }
 
-    GROUP_ENCLOSURES.map(&regexp).map(&count_max).max
+    GROUP_ENCLOSURES
+      .map{|encl| Regexp.new(pattern(*encl), Regexp::EXTENDED) }
+      .map{|r| text.scan(r).flatten.map(&count_words).max || 0 }
+      .max
   end
 
   # E.g. \((?:\g<0>|[^\(\)])*\)
