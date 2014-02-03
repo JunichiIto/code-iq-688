@@ -24,13 +24,11 @@ class FruitLogParser
   # E.g. (?<grouped>\((?:\g<grouped>|[^\(\)])*\))
   def self.pattern(left, right)
     <<-"PTN"
-      (?<grouped>
-        \\#{left}
-          (?:
-            \\g<grouped> | [^\\#{left}\\#{right}]
-          )*
-        \\#{right}
-      )
+      \\#{left}
+        (?:
+          \\g<0> | [^\\#{left}\\#{right}]
+        )*
+      \\#{right}
     PTN
   end
 end
