@@ -1,6 +1,6 @@
 class FruitLogParser
   class RegexCounter
-    GROUP_ENCLOSURE = %w|() {} []|.map(&:chars).freeze
+    GROUP_ENCLOSURES = %w|() {} []|.map(&:chars).freeze
 
     def self.count(str)
       group_finders
@@ -13,7 +13,7 @@ class FruitLogParser
     end
 
     def self.patterns
-      GROUP_ENCLOSURE.map{|enclosure| pattern(*enclosure) }
+      GROUP_ENCLOSURES.map{|enclosure| pattern(*enclosure) }
     end
 
     # /(?<grouped>\((?:\g<grouped>|[^\(\)])*\))/
