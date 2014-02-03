@@ -17,19 +17,13 @@ class FruitLogParser
 
   def self.start_end_table(text, bracket_pair)
     left, right = bracket_pair.chars
-    text.each_char_with_table_and_index do |(char, table), index|
+    text.chars.each_with_object({}).each_with_index do |(char, table), index|
       if char == left
         table[index] = nil
       end
       if char == right && start_index = table.invert[nil]
         table[start_index] = index
       end
-    end
-  end
-
-  class ::String
-    def each_char_with_table_and_index(&block)
-      self.chars.each_with_object({}).each_with_index &block
     end
   end
 end
