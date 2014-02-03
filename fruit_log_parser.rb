@@ -10,16 +10,14 @@ class FruitLogParser
   end
 
   def self.list_counts(text, bracket_pair)
-    create_ranges(text, bracket_pair).map {|range|
-      text[range].scan(/\w+/).size
-    }
+    extract_texts(text, bracket_pair).map{|s| s.scan(/\w+/).size }
   end
 
-  def self.create_ranges(text, bracket_pair)
+  def self.extract_texts(text, bracket_pair)
     left, right, stack = *bracket_pair.chars, []
     text.chars.each_with_object([]).each_with_index {|(char, ranges), index|
       stack << index if char == left
-      ranges << (stack.pop..index) if char == right && stack.any?
+      ranges << text[stack.pop..index] if char == right && stack.any?
     }
   end
 end
