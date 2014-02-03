@@ -6,20 +6,20 @@ class FruitLogParser
   end
 
   def self.count_fruits(text)
+    regexp = ->(encl) { Regexp.new(pattern(*encl), Regexp::EXTENDED) }
     count_words = ->(s){ s.scan(/\w+/).count }
     count_max = ->(r){ text.scan(r).flatten.map(&count_words).max || 0 }
-    regexp = ->(encl) { Regexp.new(pattern(*encl), Regexp::EXTENDED) }
 
     GROUP_ENCLOSURES.map(&regexp).map(&count_max).max
   end
 
-  def self.pattern(l, r)
+  def self.pattern(left, right)
     <<-PTN
-      \\#{l}
+      \\#{left}
         (?:
-          \\g<0> | [^\\#{l}\\#{r}]
+          \\g<0> | [^\\#{left}\\#{right}]
         )*
-      \\#{r}
+      \\#{right}
     PTN
   end
 end
