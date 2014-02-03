@@ -6,18 +6,13 @@ class FruitLogParser
   end
 
   def self.count_fruits(text)
-    TARGET_BRACKETS.map{|pair| list_counts(text, pair) }.flatten.compact.max
+    TARGET_BRACKETS.map{|pair| list_counts(text, *pair.chars) }.flatten.max
   end
 
-  def self.list_counts(text, bracket_pair)
-    extract_texts(text, bracket_pair).map{|s| s.scan(/\w+/).size }
-  end
-
-  def self.extract_texts(text, bracket_pair)
-    left, right, stack = *bracket_pair.chars, []
-    text.chars.each_with_object([]).each_with_index {|(char, ranges), index|
+  def self.list_counts(text, left, right, stack: [])
+    text.chars.each_with_object([]).each_with_index do |(char, counts), index|
       stack << index if char == left
-      ranges << text[stack.pop..index] if char == right && stack.any?
-    }
+      counts << text[stack.pop..index].scan(/\w+/).size if char == right && stack.any?
+    end
   end
 end
