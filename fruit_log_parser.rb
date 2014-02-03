@@ -4,9 +4,8 @@ class FruitLogParser
 
     def self.count(str)
       group_finders
-        .map {|finder|str.scan(finder) }.flatten
-        .map {|group| group.split(separator).reject(&:empty?) }
-        .map(&:size).max
+        .map{|finder| str.scan(finder) }.flatten
+        .map{|group| group.scan(/\w+/).count }.max
     end
 
     def self.group_finders
@@ -17,7 +16,7 @@ class FruitLogParser
 
     # /(?<grouped>\((?:\g<grouped>|[^\(\)])*\))/
     def self.pattern(enclosure)
-      left, right = enclosure.split(//)
+      left, right = enclosure.chars
       <<"PTN"
       (?<grouped>
         \\#{left}
@@ -27,10 +26,6 @@ class FruitLogParser
         \\#{right}
       )
 PTN
-    end
-
-    def self.separator
-      Regexp.new("[#{Regexp.escape(GROUP_ENCLOSURE.join)}\s]")
     end
   end
 
