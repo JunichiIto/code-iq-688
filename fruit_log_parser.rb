@@ -10,16 +10,16 @@ class FruitLogParser
   end
 
   def self.list_counts(text, bracket_pair)
-    range_table(text, bracket_pair).map {|s, e|
-      text[s..e].scan(/\w+/).size
+    create_ranges(text, bracket_pair).map {|range|
+      text[range].scan(/\w+/).size
     }
   end
 
-  def self.range_table(text, bracket_pair)
+  def self.create_ranges(text, bracket_pair)
     left, right, stack = *bracket_pair.chars, []
-    text.chars.each_with_object({}).each_with_index {|(char, table), index|
+    text.chars.each_with_object([]).each_with_index {|(char, ranges), index|
       stack << index if char == left
-      table[stack.pop] = index if char == right && stack.any?
+      ranges << (stack.pop..index) if char == right && stack.any?
     }
   end
 end
