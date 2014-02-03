@@ -6,19 +6,13 @@ class FruitLogParser
   end
 
   def self.count_fruits(text)
-    group_finders.map{|finder| count_max(text, finder) }.max
-  end
-
-  def self.count_max(str, finder)
-    str.scan(finder).flatten.map{|s| s.scan(/\w+/).count }.max || 0
-  end
-
-  def self.group_finders
-    patterns.map{|ptn| Regexp.new(ptn, Regexp::EXTENDED) }
-  end
-
-  def self.patterns
-    GROUP_ENCLOSURES.map{|enclosure| pattern(*enclosure) }
+    count_fruits = ->(s){ s.scan(/\w+/).count }
+    count_max = ->(r){ text.scan(r).flatten.map(&count_fruits).max || 0 }
+    GROUP_ENCLOSURES
+      .map{|enclosure| pattern(*enclosure) }
+      .map{|ptn| Regexp.new(ptn, Regexp::EXTENDED) }
+      .map(&count_max)
+      .max
   end
 
   # E.g. \((?:\g<0>|[^\(\)])*\)
