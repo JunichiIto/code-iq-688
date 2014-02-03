@@ -10,9 +10,9 @@ class FruitLogParser
   end
 
   def self.count_max(text, left, right, stack = [])
-    text.chars.each_with_object([]).each_with_index {|(char, counts), index|
+    text.chars.each_with_object([]).each_with_index{|(char, counts), index|
       stack << index if char == left
-      counts << text[stack.pop..index].scan(/\w+/).size if char == right && stack.any?
+      counts << text[stack.pop..index].scan(/\w+/).count if char == right && stack.any?
     }.max || 0
   end
 end
