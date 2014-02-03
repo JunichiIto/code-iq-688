@@ -21,7 +21,7 @@ class FruitLogParser
     GROUP_ENCLOSURES.map{|enclosure| pattern(*enclosure) }
   end
 
-  # E.g. (?<grouped>\((?:\g<grouped>|[^\(\)])*\))
+  # E.g. \((?:\g<0>|[^\(\)])*\)
   def self.pattern(left, right)
     <<-"PTN"
       \\#{left}
