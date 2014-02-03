@@ -7,7 +7,6 @@ class FruitLogParser
 
   def self.count_fruits(text)
     count_words = ->(s){ s.scan(/\w+/).count }
-
     GROUP_ENCLOSURES
       .map{|encl| regexp(*encl) }
       .map{|r| text.scan(r).flatten.map(&count_words).max || 0 }
