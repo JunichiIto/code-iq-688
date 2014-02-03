@@ -6,13 +6,13 @@ class FruitLogParser
   end
 
   def self.count_fruits(text)
-    TARGET_BRACKETS.map{|pair| list_counts(text, *pair.chars) }.flatten.max
+    TARGET_BRACKETS.map{|pair| max_fruit_count(text, *pair.chars) }.max
   end
 
-  def self.list_counts(text, left, right, stack: [])
-    text.chars.each_with_object([]).each_with_index do |(char, counts), index|
+  def self.max_fruit_count(text, left, right, stack: [])
+    text.chars.each_with_object([]).each_with_index {|(char, counts), index|
       stack << index if char == left
       counts << text[stack.pop..index].scan(/\w+/).size if char == right && stack.any?
-    end
+    }.max || 0
   end
 end
