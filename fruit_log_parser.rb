@@ -2,27 +2,24 @@ class FruitLogParser
   GROUP_ENCLOSURES = %w|() {} []|.map(&:chars).freeze
 
   def self.parse_log(path)
-    File.readlines(path).map{|line| count_fruits line }
+    File.readlines(path).map{|line| count_fruits(line) }
   end
 
   def self.count_fruits(text)
     count_words = ->(s){ s.scan(/\w+/).count }
     count_max = ->(r){ text.scan(r).flatten.map(&count_words).max || 0 }
-    GROUP_ENCLOSURES
-      .map{|enclosure| pattern(*enclosure) }
-      .map{|ptn| Regexp.new(ptn, Regexp::EXTENDED) }
-      .map(&count_max)
-      .max
+    regexp = ->(encl) { Regexp.new(pattern(*encl), Regexp::EXTENDED) }
+
+    GROUP_ENCLOSURES.map(&regexp).map(&count_max).max
   end
 
-  # E.g. \((?:\g<0>|[^\(\)])*\)
-  def self.pattern(left, right)
+  def self.pattern(l, r)
     <<-PTN
-      \\#{left}
+      \\#{l}
         (?:
-          \\g<0> | [^\\#{left}\\#{right}]
+          \\g<0> | [^\\#{l}\\#{r}]
         )*
-      \\#{right}
+      \\#{r}
     PTN
   end
 end
