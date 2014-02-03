@@ -6,13 +6,13 @@ class FruitLogParser
   end
 
   def self.count_fruits(text)
-    TARGET_BRACKETS.map{|pair| count_max(text, pair) }.max
+    TARGET_BRACKETS.map{|pair| list_counts(text, pair) }.flatten.compact.max
   end
 
-  def self.count_max(text, bracket_pair)
+  def self.list_counts(text, bracket_pair)
     start_end_table(text, bracket_pair).map {|s, e|
-      e ? text[s..e].scan(/\w+/).size : 0
-    }.max || 0
+      text[s..e].scan(/\w+/).size unless e.nil?
+    }
   end
 
   def self.start_end_table(text, bracket_pair)
