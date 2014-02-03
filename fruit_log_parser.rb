@@ -17,7 +17,7 @@ class FruitLogParser
 
   # E.g. \((?:\g<0>|[^\(\)])*\)
   def self.pattern(left, right)
-    <<-"PTN"
+    <<-PTN
       \\#{left}
         (?:
           \\g<0> | [^\\#{left}\\#{right}]
