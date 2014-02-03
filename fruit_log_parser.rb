@@ -14,7 +14,7 @@ class FruitLogParser
       .max
   end
 
-  # E.g. \((?:\g<0>|[^\(\)])*\)
+  # E.g. /\((?:\g<0>|[^\(\)])*\)/
   def self.regexp(left, right)
     Regexp.new(<<-PTN, Regexp::EXTENDED)
       \\#{left}
