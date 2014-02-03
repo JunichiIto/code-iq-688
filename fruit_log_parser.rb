@@ -13,6 +13,7 @@ class FruitLogParser
     GROUP_ENCLOSURES.map(&regexp).map(&count_max).max
   end
 
+  # E.g. \((?:\g<0>|[^\(\)])*\)
   def self.pattern(left, right)
     <<-PTN
       \\#{left}
