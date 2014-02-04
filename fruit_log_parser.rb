@@ -8,19 +8,14 @@ class FruitLogParser
   def self.count_fruits(text)
     count_words = ->(s){ s.scan(/\w+/).count }
     GROUP_ENCLOSURES
-      .map{|encl| regexp(*encl) }
+      .map{|encl| regexp(encl) }
       .map{|r| text.scan(r).flatten.map(&count_words).max || 0 }
       .max
   end
 
   # E.g. /\((?:\g<0>|[^\(\)])*\)/
-  def self.regexp(left, right)
-    Regexp.new(<<-PTN, Regexp::EXTENDED)
-      \\#{left}
-        (?:
-          \\g<0> | [^\\#{left}\\#{right}]
-        )*
-      \\#{right}
-    PTN
+  def self.regexp(enclosure)
+    left, right = enclosure.map{|s| "\\#{s}" }
+    /#{left}(?:\g<0>|[^#{left}#{right}])*#{right}/
   end
 end
