@@ -7,15 +7,10 @@ class FruitLogParser
 
   def self.count_fruits(text)
     count_words = ->(s){ s.scan(/\w+/).count }
-    GROUP_ENCLOSURES
-      .map{|encl| regexp(encl) }
-      .map{|r| text.scan(r).flatten.map(&count_words).max || 0 }
-      .max
-  end
+    escape = ->(encl){ encl.map{|s| "\\#{s}" } }
+    regexp = ->((left, right)){ /#{left}(?:\g<0>|[^#{left}#{right}])*#{right}/ }
+    count_max = ->(r){ text.scan(r).flatten.map(&count_words).max || 0 }
 
-  # E.g. /\((?:\g<0>|[^\(\)])*\)/
-  def self.regexp(enclosure)
-    left, right = enclosure.map{|s| "\\#{s}" }
-    /#{left}(?:\g<0>|[^#{left}#{right}])*#{right}/
+    GROUP_ENCLOSURES.map(&escape).map(&regexp).map(&count_max).max
   end
 end
