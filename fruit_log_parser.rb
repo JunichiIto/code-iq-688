@@ -5,7 +5,7 @@ class FruitLogParser
 
   def self.count_fruits(text)
     %w|( ) { } [ ]|
-      .map{|s| "\\#{s}" }.each_slice(2)
+      .map{|s| Regexp.escape(s) }.each_slice(2)
       .map{|left, right| /#{left}(?:\g<0>|[^#{left}#{right}])*#{right}/ }
       .map{|r| text.scan(r) }.flatten
       .map{|s| s.scan(/\w+/).count }
