@@ -6,11 +6,11 @@ class FruitLogParser
   end
 
   def self.count_fruits(text)
-    count_words = ->(s){ s.scan(/\w+/).count }
     GROUP_ENCLOSURES
       .map{|encl| encl.map{|s| "\\#{s}" } }
       .map{|left, right| /#{left}(?:\g<0>|[^#{left}#{right}])*#{right}/ }
-      .map{|r| text.scan(r).flatten.map(&count_words).max || 0 }
+      .map{|r| text.scan(r) }.flatten
+      .map{|s| s.scan(/\w+/).count }
       .max
   end
 end
